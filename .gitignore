@@ -1,0 +1,9 @@
+.venv
+venv
+.env
+.idea
+*.zip
+*.tar
+*.tar.gz
+config.py
+zappa_settings.json
