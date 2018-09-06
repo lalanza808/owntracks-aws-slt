@@ -27,8 +27,9 @@ Assuming you have all the requirements met, the following steps will create ever
 $ git clone https://github.com/lalanza808/owntracks-aws-slt.git
 $ cd owntracks-aws-slt
 $ pipenv install --python 3.6
+$ pipenv shell
 $ zappa init
-$ zappa deploy live
+$ zappa deploy
 ```
 
 The Zappa output should provide you with an endpoint for API Gateway - the HTTP endpoints with Python Lambda scripts being triggered behind them.
