@@ -1,11 +1,11 @@
 devices = {
-    'my_device': 'device_secret_string'
+    "my_device": "DEVICESECRETSTRING"
 }
 
 backend = {
-    's3': {
-        'name': 'MYLOGBUCKETNAME',
-        'region': 'us-west-2',
-        'retention': 365
+    "s3": {
+        "name": "MYLOGBUCKETNAME",
+        "region": "us-west-2",
+        "retention": 365
     }
 }
