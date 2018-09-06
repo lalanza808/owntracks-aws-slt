@@ -8,6 +8,7 @@
         "runtime": "python3.6",
         "s3_bucket": "MYZAPPABUCKETNAME",
         "keep_warm": false,
+        "log_level": "CRITICAL",
         "extra_permissions": [{
             "Effect": "Allow",
             "Action": [
