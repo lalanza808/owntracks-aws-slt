@@ -14,10 +14,10 @@ Everything is deployed and managed using the [Zappa](https://github.com/Miserlou
 
 Before you can use this tool, you must have these prerequisites:
 
-* Amazon Web Services account
-* Administrative IAM API key pair configured on your computer
-* Pipenv installed on your computer
-* Python 3.6 installed on your computer
+* [Amazon Web Services account](https://aws.amazon.com/free/)
+* [Administrative IAM API key pair](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) configured on your computer
+* [Pipenv](https://pipenv.readthedocs.io/en/latest/) installed on your computer
+* Python 3.6 installed on your computer (I use [pyenv](https://github.com/pyenv/pyenv))
 
 ## Setup
 
