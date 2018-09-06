@@ -10,22 +10,32 @@ from configparser import ConfigParser
 from pathlib import Path
 
 
-# Generate routes and views for each device and build the app
+# Generate routes and views and build the app
 def configure_app():
     with Configurator() as config:
+        # Generate routes for devices
         for device_name in app_config.devices:
             device_key = app_config.devices[device_name]
             config.add_route(
                 device_name,
-                '/device/{}'.format(device_key)
+                "/device/{}".format(device_key)
+            )
+            config.add_route(
+                "{}-status".format(device_name),
+                "/status/{}".format(device_name)
             )
             config.add_view(
                 lambda_functions.ingest,
                 route_name=device_name,
-                renderer='json'
+                renderer="json"
             )
-            app = config.make_wsgi_app()
-            return app
+            config.add_view(
+                lambda_functions.status,
+                route_name="{}-status".format(device_name),
+                renderer="json"
+            )
+        app = config.make_wsgi_app()
+        return app
 
 
 # API Gateway/Zappa function handler
@@ -35,7 +45,7 @@ def generate_wsgi_app(app, environ):
 
 
 # Local web server for development
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("[+] Starting local web server on port 8080...")
-    server = make_server('0.0.0.0', 8080, configure_app())
+    server = make_server("0.0.0.0", 8080, configure_app())
     server.serve_forever()
