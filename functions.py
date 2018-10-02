@@ -3,7 +3,9 @@
 from datetime import datetime
 from json import dumps, loads
 from pytz import utc
+
 import config as app_config
+import schema as app_schema
 import boto3
 
 
@@ -35,7 +37,6 @@ def status(request):
     else:
         return response(204, request.method, device_name)
 
-
 def ingest(request):
     """Ingest incoming JSON data from Owntracks devices into S3"""
     now = datetime.now(tz=utc)
@@ -54,16 +55,17 @@ def ingest(request):
         json_data["device_name"] = device_name
         json_data["timestamp"] = int(now.timestamp())
         json_data["datestamp"] = now.strftime("%Y-%m-%d %H:%M:%S %Z")
-        print("[DEBUG] Received object!\n{}".format(json_data))
 
-        # Put the object in the date stamped path
+        # Instantiate class to normalize data
+        owntracks = app_schema.Owntracks(json_data)
+
+        # Put the object in the date stamped path as CSV object
         s3.put_object(
             ACL="private",
-            Body=dumps(json_data),
+            Body=owntracks.to_csv(),
             Bucket=bucket_name,
-            Key="year={}/month={}/day={}/{}_{}.json".format(
-                now.year, now.month, now.day,
-                json_data["timestamp"], json_data["_type"]
+            Key="{}/{}.csv".format(
+                json_data["_type"], json_data["timestamp"]
             ),
             ServerSideEncryption='AES256'
         )
@@ -72,7 +74,7 @@ def ingest(request):
         if json_data["_type"] == "location":
             s3.put_object(
                 ACL="private",
-                Body=dumps(json_data),
+                Body=owntracks.to_json(),
                 Bucket=bucket_name,
                 Key="current/{}-status.json".format(device_name),
                 ServerSideEncryption='AES256'
