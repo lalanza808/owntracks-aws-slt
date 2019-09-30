@@ -29,7 +29,7 @@ export CODENAME=lzahq
 export ENV=live
 
 # 2. Clone project and install Python dependencies
-git clone https://github.com/lalanza808/owntracker.git owntracker
+git clone https://github.com/lalanza808/owntracker.git
 cd owntracker
 python3 -m venv .venv
 source .venv/bin/activate
