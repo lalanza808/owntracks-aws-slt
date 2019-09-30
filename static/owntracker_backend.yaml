@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: LZAHQ Owntracker backend - versioned, encrypted state storage for location data
+Resources:
+  OwntrackerStateBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+      BucketName: !Ref AWS::StackName
+      VersioningConfiguration:
+        Status: Enabled

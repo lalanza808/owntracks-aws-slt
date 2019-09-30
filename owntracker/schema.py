@@ -1,5 +1,6 @@
-import config as app_config
 import json
+import owntracker.config as app_config
+
 
 bucket_name = app_config.backend['s3']['name']
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
+import boto3
+from pytz import utc
 from datetime import datetime
 from json import dumps, loads
-from pytz import utc
 
-import config as app_config
-import schema as app_schema
-import boto3
+import owntracker.config as app_config
+import owntracker.schema as app_schema
 
 
 bucket_name = app_config.backend['s3']['name']
@@ -21,6 +21,8 @@ def response(code, method, device):
         "device": device
     }
 
+def index(request):
+    return response(200, request.method, None)
 
 def status(request):
     """View status of the device"""
@@ -64,8 +66,10 @@ def ingest(request):
             ACL="private",
             Body=owntracks.to_csv(),
             Bucket=bucket_name,
-            Key="{}/{}.csv".format(
-                json_data["_type"], json_data["timestamp"]
+            Key="live/{}/{}/{}/{}/{}.csv".format(
+                json_data["_type"],
+                now.year, now.month, now.day,
+                json_data["timestamp"]
             ),
             ServerSideEncryption='AES256'
         )
@@ -76,7 +80,7 @@ def ingest(request):
                 ACL="private",
                 Body=owntracks.to_json(),
                 Bucket=bucket_name,
-                Key="current/{}-status.json".format(device_name),
+                Key="live/{}-status.json".format(device_name),
                 ServerSideEncryption='AES256'
             )
 
