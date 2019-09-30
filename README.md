@@ -54,7 +54,11 @@ I didn't test the above super well. It was already up and running for me and I d
 
 ## Usage
 
-The application works by looping through the `devices` specified in `config.py`. The first one is generated on your behalf, but feel free to substitute it's values with your own. If you want multiple devices, append another device to the dictionary in the config.
+The application works by looping through the `devices` specified in `config.py`. Each device gets generated a unique route and view associated with the device's secret token. The secret route is used on your devices: https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/live/device/TOKEN
+
+When a device POSTs to the endpoint the location data payload gets converted into CSV and stored into the data paths, and also gets stored as JSON to a `$DEVICE-status.json` file which can be retrieved for a "current" look into the device's location; the last reported location data.
+
+The first device is auto-generated, but feel free to substitute it's values with your own. If you want multiple devices, append another device to the dictionary in the config with a new secret token.
 
 You'll have to configure each device that you want to report in. Find a way to share the deployed API Gateway endpoint, the device name, and device secret token with each of your devices. Dial the values into the app by accessing the settings.
 
