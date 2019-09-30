@@ -1,6 +1,6 @@
 # owntracker
 
-Serverless location tracking HTTP endpoints for use with [Owntracks](https://owntracks.org). Uses several [AWS](https://aws.amazon.com) services:
+Serverless location tracking backend for [Owntracks](https://owntracks.org). Uses several [AWS](https://aws.amazon.com) services:
 
 * **API Gateway** - Provides HTTP endpoints to point Owntracks client at
 * **Lambda** - Processes incoming data streams and performs queries, cleanups, notifications, etc
