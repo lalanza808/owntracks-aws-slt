@@ -95,4 +95,4 @@ fi
 
 ### Analyzing Your Data
 
-This subject is a whole other animal that we'll have to cover in another document. Go here:
+This subject is a whole other animal that we'll have to cover in another document. Go here: [Analyzing your data](./static/analyzing_data.md)
