@@ -32,7 +32,7 @@ def status(request):
         s3 = boto3.client("s3")
         object = s3.get_object(
             Bucket=bucket_name,
-            Key="current/{}.json".format(device_name)
+            Key="live/{}.json".format(device_name)
         )
         json_body = loads(object["Body"].read())
         return json_body
@@ -67,6 +67,19 @@ def ingest(request):
             Body=owntracks.to_csv(),
             Bucket=bucket_name,
             Key="live/{}/{}/{}/{}/{}.csv".format(
+                json_data["_type"],
+                now.year, now.month, now.day,
+                json_data["timestamp"]
+            ),
+            ServerSideEncryption='AES256'
+        )
+
+        # Also put the object in the date stamped path as JSON object
+        s3.put_object(
+            ACL="private",
+            Body=owntracks.to_json(),
+            Bucket=bucket_name,
+            Key="live/{}/{}/{}/{}/{}.json".format(
                 json_data["_type"],
                 now.year, now.month, now.day,
                 json_data["timestamp"]
