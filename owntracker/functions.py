@@ -61,20 +61,7 @@ def ingest(request):
         # Instantiate class to normalize data
         owntracks = app_schema.Owntracks(json_data)
 
-        # Put the object in the date stamped path as CSV object
-        s3.put_object(
-            ACL="private",
-            Body=owntracks.to_csv(),
-            Bucket=bucket_name,
-            Key="live/{}/{}/{}/{}/{}.csv".format(
-                json_data["_type"],
-                now.year, now.month, now.day,
-                json_data["timestamp"]
-            ),
-            ServerSideEncryption='AES256'
-        )
-
-        # Also put the object in the date stamped path as JSON object
+        # Put the object in the date stamped path as JSON object
         s3.put_object(
             ACL="private",
             Body=owntracks.to_json(),
